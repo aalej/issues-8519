@@ -2,7 +2,5 @@
   "projects": {
     "default": "tools-8519-prod",
     "staging": "tools-8519-staging"
-  },
-  "targets": {},
-  "etags": {}
+  }
 }
