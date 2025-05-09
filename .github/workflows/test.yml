@@ -11,14 +11,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Create Google Credentials File
-        run: |
-          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > account-credentials.json
-          echo "Successfully created account-credentials.json"
 
-      - name: Set GOOGLE_APPLICATION_CREDENTIALS
-        run: echo "GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/account-credentials.json" >> $GITHUB_ENV
-        
+      - name: Load Credentials for deployment
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: 'echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > credentials.json'
+
       - name: Install Firebase CLI
         run: |
           npm i -g firebase-tools@latest
@@ -28,9 +26,10 @@ jobs:
       - name: Run "firebase use staging"
         run: |
           firebase use staging --debug
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ./credentials.json
       - name: Run "firebase use default"
         run: |
           firebase use default --debug
-      - name: Run "firebase use staging" again
-        run: |
-          firebase use staging --debug
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ./credentials.json
