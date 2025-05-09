@@ -20,6 +20,12 @@ jobs:
       - name: Check Firebase Tools version
         run: |
           firebase --version
-      - name: Run "firebase use"
+      - name: Run "firebase use staging"
+        run: |
+          firebase use staging --debug
+      - name: Run "firebase use default"
+        run: |
+          firebase use default --debug
+      - name: Run "firebase use staging" again
         run: |
           firebase use staging --debug
