@@ -11,9 +11,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - uses: "google-github-actions/auth@v2"
-        with:
-          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+      - name: Set GOOGLE_APPLICATION_CREDENTIALS
+        run: |
+          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > google_credentials.json
+          export GOOGLE_APPLICATION_CREDENTIALS=google_credentials.json
       - name: Install Firebase CLI
         run: |
           npm i -g firebase-tools@latest
