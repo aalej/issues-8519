@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-firebase-use:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+      - name: Install Firebase CLI
+        run: |
+          npm i -g firebase-tools@latest
+      - name: Check Firebase Tools version
+        run: |
+          firebase --version
+      - name: Run "firebase use"
+        run: |
+          firebase use staging --debug
